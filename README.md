@@ -15,6 +15,31 @@ Add npm package:
 - ng add @fortawesome/angular-fontawesome
 - Note: you can do npm install as well, however NG add will install multi packages if they are needed for component you are installing
 
+Http: (HttpClient, HttpHeaders)
+
+- Note: Angular has its own http library it uses
+- Steps
+
+  - add import to component class that will make http requests/calls
+
+  ```
+    import {HttpClient, HttpHeaders} from '@angular/common/http'
+  ```
+
+  - In app.module add import & import to ngModule
+
+  ```
+    import { HttpClientModule } from '@angular/common/http';
+
+    @NgModule({imports: [HttpClientModule]})
+  ```
+
+  - In constructor of service class add params to constructor declaration
+
+  ```
+      constructor(private http: httpClient) {}
+  ```
+
 Observables:
 
 - In the service
@@ -31,13 +56,8 @@ Observables:
 - In the component consuming the observable
   _ Add import to component that is using service (import service)
   _ Add this to ngOnInit()
-    ```
-      ngOnInit(): void {
-        this.taskService.getTasks().subscribe(
-          (tasks) => (this.tasks = tasks))
-        }
-    ```
-Create Service:
+  `ngOnInit(): void { this.taskService.getTasks().subscribe( (tasks) => (this.tasks = tasks)) }`
+  Create Service:
 - ng generate service services/task
 - Add method to class
 - Add import to component that is using service
@@ -51,7 +71,7 @@ Create Service:
   ```
 - With Observable method
   - Add service method call
-    ``` 
+    ```
     getTasks(): Observable<Task[]> {
       const tasks = of(TASKS);
       return tasks;
@@ -63,8 +83,8 @@ Create a Module:
 Create a Component:
 
 ```
- ng generate component <folder/file> 
- ```
+ ng generate component <folder/file>
+```
 
 Create event for component
 
@@ -91,7 +111,7 @@ Create event for component
   ```
   Add (btnClick)="toggleAddTask()"
   ```
-- To the component 
+- To the component
 
 - Navigate to component class that is rendering this component
   - Add function in class for component
