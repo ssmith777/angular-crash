@@ -34,10 +34,39 @@ Http: (HttpClient, HttpHeaders)
     @NgModule({imports: [HttpClientModule]})
   ```
 
-  - In constructor of service class add params to constructor declaration
+  - In constructor of service class add params to constructor parameter declaration
 
   ```
       constructor(private http: httpClient) {}
+  ```
+
+  Examples of Http methods in service class
+
+  ```
+  getTasks(): Observable<Task[]> {
+    return this.http.get<Task[]>(this.apiUrl);
+  }
+
+  deleteTask(task: Task): Observable<Task> {
+    const url = `${this.apiUrl}/${task.id}`;
+    return this.http.delete<Task>(url);
+  }
+  ```
+
+  Examples in Component Class calling service methods using HTTP
+
+  ```
+  ngOnInit(): void {
+    this.taskService.getTasks().subscribe((tasks) => (this.tasks = tasks));
+  }
+
+  deleteTask(task: Task) {
+    this.taskService
+      .deleteTask(task)
+      .subscribe(
+        () => (this.tasks = this.tasks.filter((t) => t.id != task.id))
+      );
+  }
   ```
 
 Observables:
@@ -54,9 +83,13 @@ Observables:
       }
     ```
 - In the component consuming the observable
-  _ Add import to component that is using service (import service)
-  _ Add this to ngOnInit()
-  `ngOnInit(): void { this.taskService.getTasks().subscribe( (tasks) => (this.tasks = tasks)) }`
+  - Add import to component that is using service (import service)
+  - Add this to ngOnInit()
+  ```
+   ngOnInit(): void {
+    this.taskService.getTasks().subscribe((tasks) => (this.tasks = tasks));
+  }
+  ```
   Create Service:
 - ng generate service services/task
 - Add method to class
